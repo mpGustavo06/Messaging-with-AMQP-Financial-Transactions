@@ -26,7 +26,7 @@ public class LeitorCSV {
 
 			for (CSVRecord register : registers) {
 				Transacao trc = new Transacao(register.get("codigo"), register.get("cedente"), register.get("pagador"),
-						Double.valueOf(register.get("codigo")), register.get("vencimento"));
+						Double.valueOf(register.get("valor")), register.get("vencimento"));
 				transacoes.add(trc);
 			}
 		} catch (Exception e) {

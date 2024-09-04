@@ -19,7 +19,7 @@ public class Consumer {
 	}
 
 	public void processarTransacao(String transacao) {
-		String tr = this.jsonConvert(transacao);
+		String tr = this.jsonToObjString(transacao);
 
 		try {
 			System.out.println(tr);
@@ -29,7 +29,7 @@ public class Consumer {
 		}
 	}
 
-	public String jsonConvert(String transacao) {
+	public String jsonToObjString(String transacao) {
 		Gson gson = new Gson();
 		Transacao tr = gson.fromJson(transacao, Transacao.class);
 
@@ -42,10 +42,17 @@ public class Consumer {
 
 	public boolean checkValue(Transacao transacao) {
 		if (transacao.getValor() >= 40000.0) {
-			rabbitTemplate.convertAndSend(fanout.getName(), "", transacao.toString());
+			rabbitTemplate.convertAndSend(fanout.getName(), "", objToJsonString(transacao));
 			return true;
 		} else {
 			return false;
 		}
+	}
+
+	public String objToJsonString(Transacao tr) {
+		Gson gson = new Gson();
+		String jsonString = gson.toJson(tr);
+
+		return jsonString;
 	}
 }

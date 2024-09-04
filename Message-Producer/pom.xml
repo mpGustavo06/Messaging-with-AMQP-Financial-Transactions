@@ -11,7 +11,7 @@
 	</parent>
 	<groupId>br.edu.utfpr.td.tsi.transactions.producer</groupId>
 	<artifactId>Message-Producer</artifactId>
-	<version>0.0.2-SNAPSHOT</version>
+	<version>1.0</version>
 	<name>Message-Producer</name>
 	<description>Producer project for transactions with AMQP and RabbitMQ</description>
 	<url />

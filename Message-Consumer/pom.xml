@@ -11,7 +11,7 @@
 	</parent>
 	<groupId>br.edu.utfpr.td.tsi.transactions.consumer</groupId>
 	<artifactId>Message-Consumer</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.2-SNAPSHOT</version>
 	<name>Message-Consumer</name>
 	<description>Consumer project for transactions with AMQP and RabbitMQ</description>
 	<url />

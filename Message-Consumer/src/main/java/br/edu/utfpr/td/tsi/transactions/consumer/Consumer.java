@@ -1,19 +1,26 @@
 package br.edu.utfpr.td.tsi.transactions.consumer;
 
+import org.springframework.amqp.core.FanoutExchange;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import com.google.gson.Gson;
 
 @Component
 public class Consumer {
-	@RabbitListener(queues = {"financial.transactions"})
+	@Autowired
+	private RabbitTemplate rabbitTemplate;
+	private FanoutExchange fanout = new FanoutExchange("suspicious.transactions", true, false);
+
+	@RabbitListener(queues = { "financial.transactions" })
 	public void listen(String transacao) {
 		this.processarTransacao(transacao);
 	}
-	
+
 	public void processarTransacao(String transacao) {
 		String tr = this.jsonConvert(transacao);
-		
+
 		try {
 			System.out.println(tr);
 			Thread.sleep(5L);
@@ -21,11 +28,24 @@ public class Consumer {
 			Thread.currentThread().interrupt();
 		}
 	}
-	
+
 	public String jsonConvert(String transacao) {
-		Gson gson = new Gson();  
-		Transacao tr = gson.fromJson(transacao, Transacao.class);  
-		
-		return tr.toString();
+		Gson gson = new Gson();
+		Transacao tr = gson.fromJson(transacao, Transacao.class);
+
+		if (checkValue(tr)) {
+			return "Transação " + tr.getCodigo() + " enviada para orgãos responsáveis!";
+		} else {
+			return tr.toString();
+		}
+	}
+
+	public boolean checkValue(Transacao transacao) {
+		if (transacao.getValor() >= 40000.0) {
+			rabbitTemplate.convertAndSend(fanout.getName(), "", transacao.toString());
+			return true;
+		} else {
+			return false;
+		}
 	}
 }

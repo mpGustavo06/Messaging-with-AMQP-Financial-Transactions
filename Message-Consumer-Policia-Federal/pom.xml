@@ -11,7 +11,7 @@
 	</parent>
 	<groupId>br.edu.utfpr.td.tsi.transactions.consumer.exchange.policiafederal</groupId>
 	<artifactId>Message-Consumer-Policia-Federal</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0</version>
 	<name>Message-Consumer-Policia-Federal</name>
 	<description>Consumer project for transactions with AMQP and RabbitMQ</description>
 	<url />
